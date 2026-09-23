@@ -9,6 +9,17 @@ set(CMAKE_CXX_EXTENSIONS OFF)       # optional: disable compiler-specific extens
 
 project (LiliumEngine)
 
+# Helper function to disable RTTI and exceptions
+
+function(disable_rtti_and_exceptions target)
+    if (MSVC)
+        target_compile_options(${target} PRIVATE /GR- /EHs-c-)
+        target_compile_definitions(${target} PRIVATE _HAS_EXCEPTIONS=0)
+    else()
+        target_compile_options(${target} PRIVATE -fno-rtti -fno-exceptions)
+    endif()
+endfunction()
+
 find_package(glm CONFIG REQUIRED)
 find_package(SDL3 CONFIG REQUIRED)
 find_package(OpenGL REQUIRED)
@@ -18,6 +29,9 @@ find_package(imguizmo CONFIG REQUIRED)
 
 # Add source to this project's executable.
 add_executable (${PROJECT_NAME} LiliumEngine.cpp)
+
+# Disabling RTTI and exceptions
+disable_rtti_and_exceptions(${PROJECT_NAME})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE glm::glm)
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
