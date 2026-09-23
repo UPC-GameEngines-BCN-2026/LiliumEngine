@@ -1,0 +1,13 @@
+{
+	"dependencies": [
+		"glm",
+		"sdl3",
+		"opengl",
+		"glad",
+		{
+			"name": "imgui",
+			"features": [ "sdl3-binding", "opengl3-binding", "docking-experimental" ]
+		},
+		"imguizmo"
+	] 
+}
