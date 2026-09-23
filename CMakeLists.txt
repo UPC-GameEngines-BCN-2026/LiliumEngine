@@ -28,7 +28,14 @@ find_package(imgui CONFIG REQUIRED)
 find_package(imguizmo CONFIG REQUIRED)
 
 # Add source to this project's executable.
-add_executable (${PROJECT_NAME} LiliumEngine.cpp)
+add_executable (${PROJECT_NAME} 
+    src/LiliumEngine.cpp
+    src/Console.h
+    src/Console.cpp
+)
+
+# Allows adding includes to files inside subfolders
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/src)
 
 # Disabling RTTI and exceptions
 disable_rtti_and_exceptions(${PROJECT_NAME})
