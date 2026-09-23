@@ -5,8 +5,8 @@
     {
       "type": "default",
       "project": "CMakeLists.txt",
-      "projectTarget": "GameEngineTemplate.exe",
-      "name": "GameEngineTemplate.exe",
+      "projectTarget": "LiliumEngine.exe",
+      "name": "LiliumEngine.exe",
       "currentDir": "${workspaceRoot}"
     }
   ]

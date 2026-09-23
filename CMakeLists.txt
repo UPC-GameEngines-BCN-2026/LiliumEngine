@@ -1,4 +1,4 @@
-﻿# CMakeList.txt : CMake project for GameEngineTemplate, include source and define
+﻿# CMakeList.txt : CMake project for LiliumEngine, include source and define
 # project specific logic here.
 #
 cmake_minimum_required (VERSION 3.8)
@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 17)          # request C++17
 set(CMAKE_CXX_STANDARD_REQUIRED ON) # require it
 set(CMAKE_CXX_EXTENSIONS OFF)       # optional: disable compiler-specific extensions
 
-project (GameEngineTemplate)
+project (LiliumEngine)
 
 find_package(glm CONFIG REQUIRED)
 find_package(SDL3 CONFIG REQUIRED)
@@ -17,7 +17,7 @@ find_package(imgui CONFIG REQUIRED)
 find_package(imguizmo CONFIG REQUIRED)
 
 # Add source to this project's executable.
-add_executable (${PROJECT_NAME} GameEngineTemplate.cpp)
+add_executable (${PROJECT_NAME} LiliumEngine.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE glm::glm)
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
