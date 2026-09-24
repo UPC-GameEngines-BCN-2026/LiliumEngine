@@ -431,17 +431,17 @@ int main()
 
         if (ImGui::BeginMenu("View"))
         {
-            if (ImGui::MenuItem("Scene"))
+            if (ImGui::MenuItem("Scene", nullptr, sceneWindow)) //("label", shortcut, tick if the window is opened)
             {
                 sceneWindow = !sceneWindow;
             }
 
-            if (ImGui::MenuItem("ImGui Demo"))
+            if (ImGui::MenuItem("ImGui Demo", nullptr, demoImGuiWindow))
             {
                 demoImGuiWindow = !demoImGuiWindow;
             }
 
-            if (ImGui::MenuItem("Console"))
+            if (ImGui::MenuItem("Console", nullptr, consoleWindow))
             {
                 consoleWindow = !consoleWindow;
             }
@@ -466,7 +466,7 @@ int main()
                 SDL_OpenURL("https://github.com/UPC-GameEngines-BCN-2026/LiliumEngine");
             }
 
-            if (ImGui::MenuItem("About"))
+            if (ImGui::MenuItem("About", nullptr, aboutWindow))
             {
                 aboutWindow = !aboutWindow;
             }
