@@ -285,6 +285,12 @@ int main()
     ImVec2 sceneWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     bool shouldRefreshSceneWindow = false;
 
+    //Windows
+    bool sceneWindow = true;
+    bool demoImGuiWindow = false;
+    bool aboutWindow = false;
+    bool consoleWindow = false;
+
     while (isRunning)
     {
         // INPUT
@@ -412,6 +418,63 @@ int main()
         ImGui::NewFrame();
         ImGuizmo::BeginFrame();
 
+        //Header Menu
+        ImGui::BeginMainMenuBar();
+        if (ImGui::BeginMenu("File"))
+        {
+            if (ImGui::MenuItem("Exit")) {
+                isRunning = false;
+                SDL_Quit();
+            }
+            ImGui::EndMenu();
+        }
+
+        if (ImGui::BeginMenu("View"))
+        {
+            if (ImGui::MenuItem("Scene"))
+            {
+                sceneWindow = !sceneWindow;
+            }
+
+            if (ImGui::MenuItem("ImGui Demo"))
+            {
+                demoImGuiWindow = !demoImGuiWindow;
+            }
+
+            if (ImGui::MenuItem("Console"))
+            {
+                consoleWindow = !consoleWindow;
+            }
+
+            ImGui::EndMenu();
+        }
+
+        if (ImGui::BeginMenu("Help"))
+        {
+            if (ImGui::MenuItem("Github Documentation"))
+            {
+                SDL_OpenURL("https://github.com/UPC-GameEngines-BCN-2026/LiliumEngine");
+            }
+
+            if (ImGui::MenuItem("Report a bug"))
+            {
+                SDL_OpenURL("https://github.com/UPC-GameEngines-BCN-2026/LiliumEngine");
+            }
+
+            if (ImGui::MenuItem("Download latest"))
+            {
+                SDL_OpenURL("https://github.com/UPC-GameEngines-BCN-2026/LiliumEngine");
+            }
+
+            if (ImGui::MenuItem("About"))
+            {
+                aboutWindow = !aboutWindow;
+            }
+            ImGui::EndMenu();
+        }
+
+        ImGui::EndMainMenuBar();
+
         const bool gizmoActive = ImGuizmo::IsOver() || ImGuizmo::IsUsing();
         ImGuiWindowFlags flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse;
         if (gizmoActive)
@@ -419,21 +482,65 @@ int main()
             flags |= ImGuiWindowFlags_NoMove;
         }
 
-        ImGui::Begin("Scene", nullptr, flags);
-        ImVec2 cursorScreenPos = ImGui::GetCursorScreenPos();
-        ImVec2 newSceneWindowSize = ImGui::GetContentRegionAvail();
-        shouldRefreshSceneWindow = (newSceneWindowSize.x != sceneWindowSize.x || newSceneWindowSize.y != sceneWindowSize.y);
-        sceneWindowSize = newSceneWindowSize;
-        ImGui::Image(frameBufferObject.RENDER_TO_TEXTURE_ID, newSceneWindowSize, ImVec2(0, 1), ImVec2(1, 0));
+        //Create Windows
+        if (sceneWindow)
+        {
+            ImGui::Begin("Scene", &sceneWindow, flags);
+            ImVec2 cursorScreenPos = ImGui::GetCursorScreenPos();
+            ImVec2 newSceneWindowSize = ImGui::GetContentRegionAvail();
+            shouldRefreshSceneWindow = (newSceneWindowSize.x != sceneWindowSize.x || newSceneWindowSize.y != sceneWindowSize.y);
+            sceneWindowSize = newSceneWindowSize;
+            ImGui::Image(frameBufferObject.RENDER_TO_TEXTURE_ID, newSceneWindowSize, ImVec2(0, 1), ImVec2(1, 0));
 
-        glDisable(GL_DEPTH_TEST);
-        ImGuizmo::SetRect(cursorScreenPos.x, cursorScreenPos.y, newSceneWindowSize.x, newSceneWindowSize.y);
-        ImGuizmo::SetDrawlist();
-        ImGuizmo::Manipulate(glm::value_ptr(viewMatrix), glm::value_ptr(projectionMatrix), ImGuizmo::TRANSLATE, ImGuizmo::WORLD, glm::value_ptr(modelMatrix));
-        glEnable(GL_DEPTH_TEST);
-        ImGui::End();
+            glDisable(GL_DEPTH_TEST);
+            ImGuizmo::SetRect(cursorScreenPos.x, cursorScreenPos.y, newSceneWindowSize.x, newSceneWindowSize.y);
+            ImGuizmo::SetDrawlist();
+            ImGuizmo::Manipulate(glm::value_ptr(viewMatrix), glm::value_ptr(projectionMatrix), ImGuizmo::TRANSLATE, ImGuizmo::WORLD, glm::value_ptr(modelMatrix));
+            glEnable(GL_DEPTH_TEST);
+            ImGui::End();
+        }
 
-        ImGui::ShowDemoWindow();
+        if (aboutWindow) {
+            ImGui::Begin("About",&aboutWindow, flags);
+            ImGui::Text("Lilium Engine");
+            ImGui::Separator();
+            ImGui::Text("By Clara Sanchez, Hector Tarroja & Yin Ye");
+            ImGui::Text("");
+            ImGui::Text("Libraries used:");
+            ImGui::BulletText("GLM");
+            ImGui::BulletText("SDL3");
+            ImGui::BulletText("OpenGL");
+            ImGui::BulletText("GLAD");
+            ImGui::BulletText("ImGui");
+            ImGui::BulletText("ImGuizmo");
+            ImGui::Text("");
+            ImGui::Text("MIT License");
+            ImGui::Text("");
+            ImGui::Text("Copyright (c) 2026 CITM - UPC");
+            ImGui::Text("");
+            ImGui::Text("Permission is hereby granted, free of charge, to any person obtaining a copy");
+            ImGui::Text("of this software and associated documentation files (the 'Software'), to deal");
+            ImGui::Text("in the Software without restriction, including without limitation the rights");
+            ImGui::Text("to use, copy, modify, merge, publish, distribute, sublicense, and/or sell");
+            ImGui::Text("copies of the Software, and to permit persons to whom the Software is");
+            ImGui::Text("furnished to do so, subject to the following conditions:");
+            ImGui::Text("");
+            ImGui::Text("The above copyright notice and this permission notice shall be included in all");
+            ImGui::Text("copies or substantial portions of the Software.");
+            ImGui::Text("");
+            ImGui::Text("THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR");
+            ImGui::Text("IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,");
+            ImGui::Text("FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE");
+            ImGui::Text("AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER");
+            ImGui::Text("LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,");
+            ImGui::Text("OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE");
+            ImGui::Text("SOFTWARE.");
+            ImGui::End();
+        }
+
+        if (demoImGuiWindow) {
+            ImGui::ShowDemoWindow();
+        }
 
         Console::GetInstance().Draw();
 
