@@ -2,6 +2,28 @@
 
 ConfigurationWindow::ConfigurationWindow():ImGuiWindow("Configuration"){}
 
+void ConfigurationWindow::Update(float dt)
+{
+	if (dt > 0.0f)
+	{
+		float fps = 1.0f / dt;
+		float ms = dt * 1000.0f;
+
+		fpsData.push_back(fps);
+		msData.push_back(ms);
+
+		if (fpsData.size() > 100)
+		{
+			fpsData.erase(fpsData.begin());
+		}
+
+		if (msData.size() > 100)
+		{
+			msData.erase(msData.begin());
+		}
+	}
+}
+
 
 void ConfigurationWindow::DrawContent()
 {
@@ -15,24 +37,16 @@ void ConfigurationWindow::DrawContent()
 		ImGui::SliderInt("Max FPS", &maxFPS, 0, 120);
 		if (!fpsData.empty())
 		{
-			ImGui::PlotHistogram(
-				"FPS",
-				fpsData.data(),
-				static_cast<float>(fpsData.size()),
-				0,
-				nullptr,
-				100.0f,
-				static_cast<float>(maxFPS),
-				ImVec2(310, 100),
-				2
-			);
+			char title[25];
+			sprintf_s(title, 25, "Framerate %.1f", fpsData[fpsData.size() - 1]);
+			ImGui::PlotHistogram("##framerate", &fpsData[0], fpsData.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
 		}
-
-		char title[25];
-		sprintf_s(title, 25, "Framerate %.1f", fpsData[fpsData.size() - 1]);
-		ImGui::PlotHistogram("##framerate", &fpsData[0], fpsData.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
-		//sprintf_s(title, 25, "Milliseconds %.1f", ms_log[ms_log.size() - 1]);
-		//ImGui::PlotHistogram("##milliseconds", &ms_log[0], ms_log.size(), 0, title, 0.0f, 40.0f, ImVec2(310, 100));
+		if (!msData.empty()) 
+		{
+			char title[25];
+			sprintf_s(title, 25, "Milliseconds %.1f", msData[msData.size() - 1]);
+			ImGui::PlotHistogram("##milliseconds", &msData[0], msData.size(), 0, title, 0.0f, 40.0f, ImVec2(310, 100));
+		}
 
 
 		ImGui::SeparatorText("General Info");

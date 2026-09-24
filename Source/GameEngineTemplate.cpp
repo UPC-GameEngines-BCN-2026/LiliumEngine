@@ -19,7 +19,6 @@
 //Windows
 #include "ImGuiWindow.h"
 #include "ConfigurationWindow.h"
-#include "FPSWindow.h"
 
 // Setup VS and PS in GLSL
 const char* vertexShaderSource = "\n"
@@ -154,7 +153,6 @@ int main()
 
     //Window
     ConfigurationWindow configurationWindow;
-    FPSWindow fpsWindow;
 
     // Setup Platform/Renderer backends
     ImGui_ImplSDL3_InitForOpenGL(window, glContext);
@@ -329,7 +327,7 @@ int main()
         prevTime = currentTime;
 
         //fpsUpdate
-        fpsWindow.Update(dt);
+        configurationWindow.Update(dt);
 
         // Clear screen color
         glClearColor(0.1f, 0.2f, 0.2f, 1.0f);
@@ -437,7 +435,6 @@ int main()
         
         //New Windows
         configurationWindow.Draw();
-        fpsWindow.Draw();
 
         // Render ImGui
         ImGui::Render();

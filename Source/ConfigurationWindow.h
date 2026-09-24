@@ -15,5 +15,7 @@ protected:
 
 private:
 	std::vector<float> fpsData;
+	std::vector<float> msData;
+
 	int maxFPS = 120;
 };
