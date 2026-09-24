@@ -18,8 +18,6 @@
 
 // Project files
 #include "Console.h"
-#include "ImGuiWindow.h"
-#include "ConfigurationWindow.h"
 
 // Setup VS and PS in GLSL
 const char* vertexShaderSource = "\n"
@@ -161,8 +159,6 @@ int main()
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
-    ConfigurationWindow configurationWindow;
-
     // Setup Platform/Renderer backends
     ImGui_ImplSDL3_InitForOpenGL(window, glContext);
     ImGui_ImplOpenGL3_Init();
@@ -293,7 +289,6 @@ int main()
     bool sceneWindow = true;
     bool demoImGuiWindow = false;
     bool aboutWindow = false;
-    bool consoleWindow = false;
 
     while (isRunning)
     {
@@ -340,8 +335,6 @@ int main()
         const float dt = (currentTime - prevTime) / 1000000000.0f;
         rotation += SPEED * dt;
         prevTime = currentTime;
-
-        configurationWindow.Update(dt);
 
         // Clear screen color
         glClearColor(0.1f, 0.2f, 0.2f, 1.0f);
@@ -447,9 +440,9 @@ int main()
                 demoImGuiWindow = !demoImGuiWindow;
             }
 
-            if (ImGui::MenuItem("Console", nullptr, consoleWindow))
+            if (ImGui::MenuItem("Console", nullptr, Console::GetInstance().Open))
             {
-                consoleWindow = !consoleWindow;
+                Console::GetInstance().Open = !Console::GetInstance().Open;
             }
 
             ImGui::EndMenu();
@@ -547,11 +540,8 @@ int main()
         if (demoImGuiWindow) {
             ImGui::ShowDemoWindow();
         }
-        if (consoleWindow)
-        {
-            Console::GetInstance().Draw();
-        }
-        configurationWindow.Draw();
+
+        Console::GetInstance().Draw();
 
         // Render ImGui
         ImGui::Render();
