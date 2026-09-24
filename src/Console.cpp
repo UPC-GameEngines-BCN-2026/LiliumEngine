@@ -36,10 +36,14 @@ void Console::Clear()
 
 void Console::Draw()
 {
+	// Not draw the window if it's closed
 	if (!Open) return;
 
+	// Check whether the contents need to be drawn
 	if (ImGui::Begin("Console", &Open)) 
 	{
+		ImGui::SetWindowSize(ImVec2(800, 500));
+
 		if (ImGui::BeginPopup("Options"))
 		{
 			ImGui::Checkbox("Auto-scroll", &AutoScroll);
@@ -65,8 +69,10 @@ void Console::Draw()
 			ImGui::LogToClipboard();
 		}
 
+		// Child window inside the console with a scroll region
 		ImGui::BeginChild("Scroll", ImVec2(0, 0), ImGuiChildFlags_None, ImGuiWindowFlags_HorizontalScrollbar);
 
+		// Draw the text
 		for (const auto& e : entries) 
 		{
 			ImGui::TextUnformatted(e.c_str());

@@ -100,9 +100,12 @@ int main()
     const int SCREEN_WIDTH = 1920;
     const int SCREEN_HEIGHT = 1080;
 
+    LOG("Init SDL");
+
     // Init SDL
     if (!SDL_Init(SDL_INIT_VIDEO))
     {
+        LOG("SDL_Init failed: %s", SDL_GetError());
         return -1;
     }
 
@@ -113,6 +116,7 @@ int main()
     // Set Core Profile Mode
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
+    LOG("Creating window");
     // Create OpenGL window using SDL
     SDL_Window* window = SDL_CreateWindow("LiliumEngine",
         SCREEN_WIDTH, SCREEN_HEIGHT,
@@ -122,6 +126,7 @@ int main()
     // Early out if window not valid
     if (window == nullptr)
     {
+        LOG("Window not valid, quitting application: %s", SDL_GetError());
         SDL_Quit();
         return -1;
     }
@@ -129,14 +134,17 @@ int main()
     // OpenGL is context based and thread local
     // Link OpenGL context to SDL, after this you can load OpenGL functions and start rendering
     // Multi-threading -> Define multiple context and make them current
+    LOG("Creating GLContext");
     SDL_GLContext glContext = SDL_GL_CreateContext(window);
     if (!glContext)
     {
+        LOG("Failed to create GLContext");
         SDL_DestroyWindow(window);
         SDL_Quit();
         return -1;
     }
 
+    LOG("OpenGL function pointers init");
     // Init all OpenGL function pointers at runtime (not linked at compile time)
     gladLoadGL();
 
@@ -144,6 +152,7 @@ int main()
     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
     // IMGUI
+    LOG("Init ImGui");
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
