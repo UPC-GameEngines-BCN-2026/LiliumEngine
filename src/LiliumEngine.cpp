@@ -16,6 +16,9 @@
 
 #include "ImGuizmo.h"
 
+// Project files
+#include "Console.h"
+
 // Setup VS and PS in GLSL
 const char* vertexShaderSource = "\n"
 "#version 460 core\n"
@@ -111,7 +114,7 @@ int main()
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
     // Create OpenGL window using SDL
-    SDL_Window* window = SDL_CreateWindow("EnginishGL",
+    SDL_Window* window = SDL_CreateWindow("LiliumEngine",
         SCREEN_WIDTH, SCREEN_HEIGHT,
         SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE
     );
@@ -422,6 +425,8 @@ int main()
         ImGui::End();
 
         ImGui::ShowDemoWindow();
+
+        Console::GetInstance().Draw();
 
         // Render ImGui
         ImGui::Render();
