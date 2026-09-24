@@ -289,7 +289,6 @@ int main()
     bool sceneWindow = true;
     bool demoImGuiWindow = false;
     bool aboutWindow = false;
-    bool consoleWindow = false;
 
     while (isRunning)
     {
@@ -441,9 +440,9 @@ int main()
                 demoImGuiWindow = !demoImGuiWindow;
             }
 
-            if (ImGui::MenuItem("Console", nullptr, consoleWindow))
+            if (ImGui::MenuItem("Console", nullptr, Console::GetInstance().Open))
             {
-                consoleWindow = !consoleWindow;
+                Console::GetInstance().Open = !Console::GetInstance().Open;
             }
 
             ImGui::EndMenu();
@@ -541,10 +540,8 @@ int main()
         if (demoImGuiWindow) {
             ImGui::ShowDemoWindow();
         }
-        if (consoleWindow)
-        {
-            Console::GetInstance().Draw();
-        }
+
+        Console::GetInstance().Draw();
 
         // Render ImGui
         ImGui::Render();

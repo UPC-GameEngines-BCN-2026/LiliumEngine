@@ -23,7 +23,7 @@ public:
 
 	bool AutoScroll = true;
 
-	bool Open = true;
+	bool Open = false;
 
 private:
 
