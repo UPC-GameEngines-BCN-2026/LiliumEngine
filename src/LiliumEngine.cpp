@@ -541,8 +541,10 @@ int main()
         if (demoImGuiWindow) {
             ImGui::ShowDemoWindow();
         }
-
-        Console::GetInstance().Draw();
+        if (consoleWindow)
+        {
+            Console::GetInstance().Draw();
+        }
 
         // Render ImGui
         ImGui::Render();
