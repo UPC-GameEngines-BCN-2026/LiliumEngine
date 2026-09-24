@@ -16,6 +16,11 @@
 
 #include "ImGuizmo.h"
 
+//Windows
+#include "ImGuiWindow.h"
+#include "ConfigurationWindow.h"
+#include "FPSWindow.h"
+
 // Setup VS and PS in GLSL
 const char* vertexShaderSource = "\n"
 "#version 460 core\n"
@@ -146,6 +151,10 @@ int main()
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+    //Window
+    ConfigurationWindow configurationWindow;
+    FPSWindow fpsWindow;
 
     // Setup Platform/Renderer backends
     ImGui_ImplSDL3_InitForOpenGL(window, glContext);
@@ -319,6 +328,9 @@ int main()
         rotation += SPEED * dt;
         prevTime = currentTime;
 
+        //fpsUpdate
+        fpsWindow.Update(dt);
+
         // Clear screen color
         glClearColor(0.1f, 0.2f, 0.2f, 1.0f);
 
@@ -422,6 +434,10 @@ int main()
         ImGui::End();
 
         ImGui::ShowDemoWindow();
+        
+        //New Windows
+        configurationWindow.Draw();
+        fpsWindow.Draw();
 
         // Render ImGui
         ImGui::Render();

@@ -17,7 +17,7 @@ find_package(imgui CONFIG REQUIRED)
 find_package(imguizmo CONFIG REQUIRED)
 
 # Add source to this project's executable.
-add_executable (${PROJECT_NAME} GameEngineTemplate.cpp)
+add_executable (${PROJECT_NAME} "Source/GameEngineTemplate.cpp" "Source/ImGuiWindow.h" "Source/ImGuiWindow.cpp" "Source/ConfigurationWindow.h" "Source/ConfigurationWindow.cpp" "Source/FPSWindow.h" "Source/FPSWindow.cpp")
 
 target_link_libraries(${PROJECT_NAME} PRIVATE glm::glm)
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
