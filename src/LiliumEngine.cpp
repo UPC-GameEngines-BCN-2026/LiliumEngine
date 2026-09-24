@@ -18,6 +18,8 @@
 
 // Project files
 #include "Console.h"
+#include "ImGuiWindow.h"
+#include "ConfigurationWindow.h"
 
 // Setup VS and PS in GLSL
 const char* vertexShaderSource = "\n"
@@ -158,6 +160,8 @@ int main()
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+    ConfigurationWindow configurationWindow;
 
     // Setup Platform/Renderer backends
     ImGui_ImplSDL3_InitForOpenGL(window, glContext);
@@ -336,6 +340,8 @@ int main()
         const float dt = (currentTime - prevTime) / 1000000000.0f;
         rotation += SPEED * dt;
         prevTime = currentTime;
+
+        configurationWindow.Update(dt);
 
         // Clear screen color
         glClearColor(0.1f, 0.2f, 0.2f, 1.0f);
@@ -545,6 +551,7 @@ int main()
         {
             Console::GetInstance().Draw();
         }
+        configurationWindow.Draw();
 
         // Render ImGui
         ImGui::Render();

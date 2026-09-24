@@ -32,7 +32,7 @@ add_executable (${PROJECT_NAME}
     src/LiliumEngine.cpp
     src/Console.h
     src/Console.cpp
-)
+ "src/ImGuiWindow.cpp" "src/ImGuiWindow.h" "src/ConfigurationWindow.h" "src/ConfigurationWindow.cpp")
 
 # Allows adding includes to files inside subfolders
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/src)
