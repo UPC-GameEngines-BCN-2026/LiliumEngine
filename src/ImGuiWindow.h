@@ -6,8 +6,6 @@
 
 #include "ImGuizmo.h"
 
-#include <SDL3/SDL.h>
-
 class ImGuiWindow
 {
 public:

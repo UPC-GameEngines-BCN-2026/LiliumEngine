@@ -1,6 +1,8 @@
 #include "ConfigurationWindow.h"
 
-ConfigurationWindow::ConfigurationWindow() :ImGuiWindow("Configuration") {}
+ConfigurationWindow::ConfigurationWindow(SDL_Window* window) : ImGuiWindow("Configuration") {
+	this->window = window;
+}
 
 void ConfigurationWindow::Update(float dt)
 {
@@ -74,6 +76,21 @@ void ConfigurationWindow::DrawContent()
 	if (ImGui::CollapsingHeader("Window"))
 	{
 		ImGui::Text("Window options");
+		ImGui::SliderInt("Width", &screenWidth, 720, 1920);
+		ImGui::SliderInt("Height", &screenHeight, 720, 1080);
+
+		SDL_SetWindowSize(window, screenWidth, screenHeight);
+
+		ImGui::SliderFloat("Brightness", &brightness, 0, 1);
+
+		ImGui::Checkbox("Fullscreen", &fullscreen);
+		SDL_SetWindowFullscreen(window, fullscreen);
+
+		ImGui::Checkbox("Resizable", &resizable);
+		SDL_SetWindowResizable(window, resizable);
+
+		ImGui::Checkbox("Borderless", &borderless);
+		SDL_SetWindowBordered(window, borderless);
 	}
 
 	if (ImGui::CollapsingHeader("Hardware Info"))
